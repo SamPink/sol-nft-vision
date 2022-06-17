@@ -45,4 +45,4 @@ def get_data_for_collection(collection):
 
         df_best.to_csv(f"data/{slug_name}/best_listings.csv")
     
-get_data_for_collection(collections[4])
+get_data_for_collection(collections[0])

@@ -3,6 +3,7 @@ import dash
 import dash_bootstrap_components as dbc
 from dash import Input, Output, dcc, html
 import os
+import json
 
 
 app = dash.Dash(external_stylesheets=[dbc.themes.BOOTSTRAP])
@@ -68,16 +69,35 @@ def render_page_content(pathname):
     )
 
 def index():
-    #read all of the folders in data
-    folders = os.listdir("./data")
+    with open("./data/collections.json") as f:
+        collections = json.load(f)
+        
+    df = pd.DataFrame()
     
-    #create a dropdown menu with all of the folders
-    dropdown = dbc.DropdownMenu(
-        children=[dbc.DropdownMenuItem(f"{folder}", href=f"/listings/{folder}") for folder in folders],
-        label="Select a collection",
-        className="mb-3",
-    )
-    return html.Div([dropdown, html.Hr()])
+    for collection in collections:
+        #get rarity.csv from the data folder
+        rarity = pd.read_csv(f"./data/{collection['slug']}/listings.csv")
+        if rarity.empty:
+            continue
+        
+        #sort by rarity rank
+        rarity = rarity.sort_values(by='rarity.moonrank.rank', ascending=True)
+        try:
+            best = rarity.head(1)[['price', 'rarity.moonrank.rank', 'extra.img']]
+            best['collection'] = collection['slug']
+        except:
+            print(f"{collection['slug']} is empty")
+        
+        df = df.append(best)
+        
+    return html.Div(
+        [html.H1("Supported Collections"), 
+         html.Hr(), 
+         html.Div(
+                dbc.Row([card_home_page(df.iloc[[i]]) for i in range(df.shape[0])])
+        ),])
+    
+        
 
 def listings(collection=None):
     #get listings.csv from the data folder
@@ -91,6 +111,28 @@ def listings(collection=None):
          html.Div(
                 dbc.Row([card_listing(listings.iloc[[i]]) for i in range(100)])
         ),])
+
+def card_home_page(ape):
+    
+    return dbc.Card(
+        [
+            dbc.CardImg(
+                    src=ape["extra.img"],
+                    top=True,
+                    style={"width": "100%", "height": "auto"},
+                ),
+                dbc.CardBody(
+                    [
+                        html.H4(ape['collection'].item()),
+                        html.H4(f"Rarity Rank: {ape['rarity.moonrank.rank'].item()}"),
+                        html.P(f"Listing Price: {ape['price'].item()} SOL"),
+                        dbc.CardLink("Best value listings", href="/listings/"+ape['collection'].item()),
+                    ]
+                ),
+        ],
+        style={"width": "18rem"},
+    )
+
 
 def card_listing(ape):
 

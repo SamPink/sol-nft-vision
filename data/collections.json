@@ -2,7 +2,8 @@
     {
         "name": "Okay Bear",
         "slug": "okay_bear",
-        "size": 10000
+        "size": 10000,
+        "slug_moon_rank": "okay_bears"
     },
     {
         "name": "Trippin' Ape Tribe",
