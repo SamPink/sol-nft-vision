@@ -14,5 +14,16 @@
         "slug": "justape",
         "size": 10000,
         "slug_moon_rank": "ape"
+    },
+    {
+        "name": "Solana Monkey Business",
+        "slug": "solana_monkey_business",
+        "size": 5000,
+        "slug_moon_rank": "smb"
+    },
+    {
+        "name": "primates",
+        "slug": "primates",
+        "size": 10000
     }
 ]

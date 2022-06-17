@@ -1,15 +1,14 @@
 import os
+import json 
 
 import sales
 import rarity
 import listings
 import best_listings as best
 
-collections = [
-    {"name": "Okay Bear", "slug": "okay_bear", "size": 10000},
-    {"name": "Trippin' Ape Tribe", "slug": "trippin_ape_tribe", "size": 10000},
-    {"name": "Just Ape.", "slug": "justape", "size": 10000, "slug_moon_rank": "ape"},
-]
+#read data/collections.json to a json object
+with open("data/collections.json") as f:
+    collections = json.load(f)
 
 def get_data_for_collection(collection):
     slug_name = collection["slug"]
@@ -46,4 +45,4 @@ def get_data_for_collection(collection):
 
         df_best.to_csv(f"data/{slug_name}/best_listings.csv")
     
-get_data_for_collection(collections[2])
+get_data_for_collection(collections[4])
