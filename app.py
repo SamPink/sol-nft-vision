@@ -4,9 +4,12 @@ import dash_bootstrap_components as dbc
 from dash import Input, Output, dcc, html
 import os
 import json
+from flask import Flask
 
+server = Flask(__name__)
 
-app = dash.Dash(external_stylesheets=[dbc.themes.BOOTSTRAP])
+app = dash.Dash(external_stylesheets=[dbc.themes.BOOTSTRAP],server=server)
+app.title = 'NFT Vision'
 
 # the style arguments for the sidebar. We use position:fixed and a fixed width
 SIDEBAR_STYLE = {
@@ -126,7 +129,7 @@ def card_home_page(ape):
                         html.H4(ape['collection'].item()),
                         html.H4(f"Rarity Rank: {ape['rarity.moonrank.rank'].item()}"),
                         html.P(f"Listing Price: {ape['price'].item()} SOL"),
-                        dbc.CardLink("Best value listings", href="/listings/"+ape['collection'].item()),
+                        dbc.CardLink("Best value listings", href="/listings"),
                     ]
                 ),
         ],
@@ -156,4 +159,4 @@ def card_listing(ape):
     )
 
 if __name__ == "__main__":
-    app.run_server(port=8887, debug=True)
+    app.run_server()
