@@ -1,3 +1,4 @@
+asgiref==3.5.2
 Brotli==1.0.9
 certifi==2022.6.15
 charset-normalizer==2.0.12
@@ -9,6 +10,7 @@ dash-html-components==2.0.0
 dash-table==5.0.0
 Flask==2.1.2
 Flask-Compress==1.12
+h11==0.13.0
 Historic-Crypto==0.1.6
 idna==3.3
 importlib-metadata==4.11.4
@@ -29,6 +31,7 @@ sklearn==0.0
 tenacity==8.0.1
 threadpoolctl==3.1.0
 urllib3==1.26.9
+uvicorn==0.17.6
 Werkzeug==2.1.2
 xgboost==1.6.1
 zipp==3.8.0
