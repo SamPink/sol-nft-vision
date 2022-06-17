@@ -1,0 +1,18 @@
+[
+    {
+        "name": "Okay Bear",
+        "slug": "okay_bear",
+        "size": 10000
+    },
+    {
+        "name": "Trippin' Ape Tribe",
+        "slug": "trippin_ape_tribe",
+        "size": 10000
+    },
+    {
+        "name": "Just Ape.",
+        "slug": "justape",
+        "size": 10000,
+        "slug_moon_rank": "ape"
+    }
+]

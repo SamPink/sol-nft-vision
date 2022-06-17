@@ -104,7 +104,7 @@ def card_listing(ape):
                 dbc.CardBody(
                     [
                         html.H4(ape['name'].item()),
-                        html.H4(f"Rarity Rank: {ape['rarity.moonrank.rank'].item()}"),
+                        html.H4(f"Rarity Rank: {ape['rarity_rank'].item()}"),
                         html.P(f"Listing Price: {ape['price'].item()} SOL"),
                         html.P(f"Predicted Price: {ape['pred_SOL'].item()} SOL"),
                     ]

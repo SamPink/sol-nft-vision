@@ -2,11 +2,10 @@ import http.client
 import pandas as pd
 import time
 
-NUM_SALES = 30000
 LIMIT = 100
 
-
 def get_request(slug, offset):
+    
     conn = http.client.HTTPSConnection("api-mainnet.magiceden.dev")
     payload = ""
     headers = {}
@@ -23,7 +22,7 @@ def get_request(slug, offset):
     return data
 
 
-def get_sales(slug):
+def get_sales(slug, max_sales):
     offset = 0
     search = True
     all_trades = pd.DataFrame()
@@ -48,7 +47,7 @@ def get_sales(slug):
             search = False
 
         # limit to 100 calls
-        if offset > NUM_SALES:
+        if offset > max_sales:
             search = False
 
     return all_trades
