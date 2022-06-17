@@ -81,7 +81,7 @@ def index():
 
 def listings(collection=None):
     #get listings.csv from the data folder
-    listings = pd.read_csv(f"./data/{collection}/listings.csv")
+    listings = pd.read_csv(f"./data/{collection}/best_listings.csv")
 
     
     
@@ -89,7 +89,7 @@ def listings(collection=None):
         [html.H1(f"{collection}"), 
          html.Hr(), 
          html.Div(
-                dbc.Row([card_listing(listings.iloc[[i]]) for i in range(listings.shape[0])])
+                dbc.Row([card_listing(listings.iloc[[i]]) for i in range(100)])
         ),])
 
 def card_listing(ape):
@@ -103,8 +103,9 @@ def card_listing(ape):
                 ),
                 dbc.CardBody(
                     [
-                        html.H4(f"Rarity Rank: {ape['rarity.moonrank.rank']}"),
-                        html.P(f" Price: ape['price']"),
+                        html.H4(f"Rarity Rank: {ape['rarity.moonrank.rank'].item()}"),
+                        html.P(f"Listing Price: {ape['price'].item()} SOL"),
+                        html.P(f"Predicted Price: {ape['pred_SOL'].item()} SOL"),
                     ]
                 ),
         ],
