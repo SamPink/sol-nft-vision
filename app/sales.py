@@ -32,8 +32,13 @@ def get_sales(slug):
             sales_page = get_request(slug=slug, offset=offset)
 
             df = pd.read_json(sales_page)
+            
+            if df.empty:
+                search = False
 
             all_trades = all_trades.append(df)
+            
+            print(f"df is now {all_trades.shape[0]}")
 
             offset += LIMIT
 

@@ -1,3 +1,5 @@
 /.ipynb_checkpoints
 /metaplex
 .vscode/***
+env/***
+***/__pycache__/***
