@@ -6,7 +6,7 @@ import os
 
 import sales as sales
 
-slug_name = "solana_monkey_business"
+slug_name = "degods"
 
 
 # make folder for slug in data if not exists
