@@ -44,5 +44,7 @@ def get_data_for_collection(collection):
         df_best = best.calculate_best_listings(slug_name)
 
         df_best.to_csv(f"data/{slug_name}/best_listings.csv")
-    
-get_data_for_collection(collections[0])
+ 
+ 
+for collection in collections:
+    get_data_for_collection(collection) 
