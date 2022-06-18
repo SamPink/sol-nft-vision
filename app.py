@@ -1,4 +1,5 @@
 from distutils.log import debug
+import re
 import pandas as pd
 import dash
 import dash_bootstrap_components as dbc
@@ -41,7 +42,10 @@ sidebar = html.Div(
         dbc.Nav(
             [
                 dbc.NavLink("Home", href="/", active="exact"),
-                dbc.NavLink("Best Listings", href="/listings", active="exact"),
+                dbc.NavLink("Okay Bears", href="/listings/okay_bears", active="exact"),
+                dbc.NavLink("Tripping Ape Tribe", href="/listings/trippin_ape_tribe", active="exact"),
+                dbc.NavLink("Primates", href="/listings/primates", active="exact"),
+                dbc.NavLink("Just Ape", href="/listings/justape", active="exact"),
             ],
             vertical=True,
             pills=True,
@@ -50,6 +54,22 @@ sidebar = html.Div(
     style=SIDEBAR_STYLE,
 )
 
+''' with open("./data/collections.json") as f:
+        collections = json.load(f)
+
+#create dropdown for collections
+dropdown_options = [{
+    "label": collection['name'],
+    "value": collection['slug']
+} for collection in collections]
+
+content = html.Div([html.Div(id="page-content", style=CONTENT_STYLE),dcc.Dropdown(
+                id="collection-dropdown",
+                options=dropdown_options,
+                value=dropdown_options[0]['label'],
+                style={"width": "18rem"},
+            )]) '''
+            
 content = html.Div(id="page-content", style=CONTENT_STYLE)
 
 app.layout = html.Div([dcc.Location(id="url"), sidebar, content])
@@ -59,18 +79,16 @@ app.layout = html.Div([dcc.Location(id="url"), sidebar, content])
 def render_page_content(pathname):
     if pathname == "/":
         return index()
-    elif pathname == "/listings/{collection}":
-        return listings(collection)
-    elif pathname == "/page-2":
-        return html.P("Oh cool, this is page 2!")
+    elif pathname == "/listings/okay_bears":
+        return listings("okay_bears")
+    elif pathname == "/listings/trippin_ape_tribe":
+        return listings("trippin_ape_tribe")
+    elif pathname == "/listings/primates":
+        return listings("primates")
+    elif pathname == "/listings/justape":
+            return listings("justape")
     # If the user tries to reach a different page, return a 404 message
-    return dbc.Jumbotron(
-        [
-            html.H1("404: Not found", className="text-danger"),
-            html.Hr(),
-            html.P(f"The pathname {pathname} was not recognised..."),
-        ]
-    )
+    return html.P("404: Page not found")
 
 def index():
     with open("./data/collections.json") as f:
@@ -101,12 +119,7 @@ def index():
         [html.H1("Supported Collections"), 
          html.Hr(), 
          #dropdown to select collection
-            dcc.Dropdown(
-                id="collection-dropdown",
-                options=dropdown_options,
-                value=dropdown_options[0]['label'],
-                style={"width": "18rem"},
-            ),
+        
          html.Div(
                 dbc.Row([card_listing(df.iloc[[i]]) for i in range(df.shape[0])])
         ),])
