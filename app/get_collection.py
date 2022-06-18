@@ -10,7 +10,7 @@ import best_listings as best
 with open("data/collections.json") as f:
     collections = json.load(f)
 
-def get_data_for_collection(collection):
+def get_data_for_collection(collection, update_listings=False):
     slug_name = collection["slug"]
     # make folder for slug in data if not exists
     if not os.path.exists(f"data/{slug_name}"):
@@ -30,10 +30,11 @@ def get_data_for_collection(collection):
 
         df_rarity.to_csv(f"data/{slug_name}/rarity.csv")
 
-    if not os.path.exists(f"data/{slug_name}/listings.csv"):
+    if not os.path.exists(f"data/{slug_name}/listings.csv") or update_listings:
         df_listings = listings.get_listings(slug_name)
-
-        df_listings.to_csv(f"data/{slug_name}/listings.csv")
+        
+        if df_listings.empty == False:
+            df_listings.to_csv(f"data/{slug_name}/listings.csv")
 
 
     if not os.path.exists(f"data/{slug_name}/predicted.csv"):
@@ -46,5 +47,5 @@ def get_data_for_collection(collection):
         df_best.to_csv(f"data/{slug_name}/best_listings.csv")
  
  
-for collection in collections:
-    get_data_for_collection(collection) 
+#for collection in collections:
+get_data_for_collection(collections[4], update_listings=True) 

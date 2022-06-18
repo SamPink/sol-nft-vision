@@ -1,3 +1,4 @@
+from distutils.log import debug
 import pandas as pd
 import dash
 import dash_bootstrap_components as dbc
@@ -58,8 +59,8 @@ app.layout = html.Div([dcc.Location(id="url"), sidebar, content])
 def render_page_content(pathname):
     if pathname == "/":
         return index()
-    elif pathname == "/listings":
-        return listings('okay_bear')
+    elif pathname == "/listings/{collection}":
+        return listings(collection)
     elif pathname == "/page-2":
         return html.P("Oh cool, this is page 2!")
     # If the user tries to reach a different page, return a 404 message
@@ -76,31 +77,44 @@ def index():
         collections = json.load(f)
         
     df = pd.DataFrame()
+    dropdown_options = []
     
     for collection in collections:
-        #get rarity.csv from the data folder
-        rarity = pd.read_csv(f"./data/{collection['slug']}/listings.csv")
-        if rarity.empty:
-            continue
-        
-        #sort by rarity rank
-        rarity = rarity.sort_values(by='rarity.moonrank.rank', ascending=True)
         try:
-            best = rarity.head(1)[['price', 'rarity.moonrank.rank', 'extra.img']]
-            best['collection'] = collection['slug']
+            #get rarity.csv from the data folder
+            rarity = pd.read_csv(f"./data/{collection['slug']}/best_listings.csv")
+            if rarity.empty:
+                continue
+            #sort by rarity rank
+            rarity = rarity.sort_values(by='diff', ascending=False)
+            
+            best = rarity.head(1)[['price', 'rarity_rank', 'extra.img', 'name', 'pred_SOL', 'diff']]
+            best['name'] = collection['name']
+            
+            df = df.append(best)
+            
+            dropdown_options.append({"label": collection['name'], "value": collection['slug']})
         except:
             print(f"{collection['slug']} is empty")
-        
-        df = df.append(best)
         
     return html.Div(
         [html.H1("Supported Collections"), 
          html.Hr(), 
+         #dropdown to select collection
+            dcc.Dropdown(
+                id="collection-dropdown",
+                options=dropdown_options,
+                value=dropdown_options[0]['label'],
+                style={"width": "18rem"},
+            ),
          html.Div(
-                dbc.Row([card_home_page(df.iloc[[i]]) for i in range(df.shape[0])])
+                dbc.Row([card_listing(df.iloc[[i]]) for i in range(df.shape[0])])
         ),])
     
-        
+''' #add a callback to the dropdown to go to the best listings page
+@app.callback(Output("page-content", "children"), [Input("collection-dropdown", "value")])
+def update_url(collection):
+    return listings(collection)  '''      
 
 def listings(collection=None):
     #get listings.csv from the data folder
@@ -115,29 +129,7 @@ def listings(collection=None):
                 dbc.Row([card_listing(listings.iloc[[i]]) for i in range(100)])
         ),])
 
-def card_home_page(ape):
-    
-    return dbc.Card(
-        [
-            dbc.CardImg(
-                    src=ape["extra.img"],
-                    top=True,
-                    style={"width": "100%", "height": "auto"},
-                ),
-                dbc.CardBody(
-                    [
-                        html.H4(ape['collection'].item()),
-                        html.H4(f"Rarity Rank: {ape['rarity.moonrank.rank'].item()}"),
-                        html.P(f"Listing Price: {ape['price'].item()} SOL"),
-                        dbc.CardLink("Best value listings", href="/listings"),
-                    ]
-                ),
-        ],
-        style={"width": "18rem"},
-    )
-
-
-def card_listing(ape):
+def card_listing(ape, listings_link=False):
 
     return dbc.Card(
         [
@@ -159,4 +151,4 @@ def card_listing(ape):
     )
 
 if __name__ == "__main__":
-    app.run_server()
+    app.run_server(debug=True)

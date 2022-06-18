@@ -1,7 +1,7 @@
 [
     {
         "name": "Okay Bear",
-        "slug": "okay_bear",
+        "slug": "okay_bears",
         "size": 10000,
         "slug_moon_rank": "okay_bears"
     },
@@ -23,7 +23,7 @@
         "slug_moon_rank": "smb"
     },
     {
-        "name": "primates",
+        "name": "Primates",
         "slug": "primates",
         "size": 10000
     }
