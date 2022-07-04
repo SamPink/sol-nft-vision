@@ -47,5 +47,5 @@ def get_data_for_collection(collection, update_listings=False):
         df_best.to_csv(f"data/{slug_name}/best_listings.csv")
  
  
-#for collection in collections:
-get_data_for_collection(collections[4], update_listings=True) 
+for collection in collections:
+    get_data_for_collection(collection, update_listings=True) 
