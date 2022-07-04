@@ -1,10 +1,14 @@
 import os
 import json 
+import pandas as pd
 
 import sales
 import rarity
 import listings
 import best_listings as best
+
+#dissable pandas warnings
+pd.options.mode.chained_assignment = None
 
 #read data/collections.json to a json object
 with open("data/collections.json") as f:
