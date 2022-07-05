@@ -52,4 +52,4 @@ def get_data_for_collection(collection, update_listings=False):
  
  
 for collection in collections:
-    get_data_for_collection(collection, update_listings=True) 
+    get_data_for_collection(collection, update_listings=False) 

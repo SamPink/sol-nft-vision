@@ -43,11 +43,16 @@ sidebar = html.Div(
             style={"text-align": "center"},
         ),
         html.Hr(),
-        html.P("$SOL", className="lead"),
+        html.A(
+            "Zash NFT vision Docs",
+            href="https://ntf-vision.readme.io/reference/sol",
+            target="_blank",
+            style={"text-align": "center"},
+        ),
+        html.Hr(),
         dbc.Nav(
             [
                 dbc.NavLink("Home", href="/", active="exact"),
-                dbc.NavLink("Docs", href="/docs", active="exact"),
                 dbc.NavLink("Okay Bears", href="/listings/okay_bears", active="exact"),
                 dbc.NavLink(
                     "Tripping Ape Tribe",
