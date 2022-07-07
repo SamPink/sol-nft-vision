@@ -45,7 +45,7 @@ sidebar = html.Div(
         html.Hr(),
         html.A(
             "Zash NFT vision Docs",
-            href="https://ntf-vision.readme.io/reference/sol",
+            href="https://mvh.gitbook.io/nft-vision/api",
             target="_blank",
             style={"text-align": "center"},
         ),
